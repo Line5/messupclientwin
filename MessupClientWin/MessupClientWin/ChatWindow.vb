@@ -33,6 +33,7 @@
     End Sub
 
     Public Sub addMessages(msgs As List(Of chatMessage))
+        Dim newIncomingMessage As Boolean = False
         If Not msgs Is Nothing Then
             Dim msg As String = Nothing
             For i As Integer = 0 To msgs.Count - 1
@@ -40,7 +41,13 @@
                 WebBrowser1.Document.Write(msg)
                 WebBrowser1.Document.Body.All(WebBrowser1.Document.Body.All.Count - 1).ScrollIntoView(False)
                 lastMessageNo = msgs(i).id
+                If msgs(i).who = "c" Then
+                    newIncomingMessage = True
+                End If
             Next
+            If newIncomingMessage = True Then
+                Program.MainForm.announceMsg()
+            End If
         End If
     End Sub
 

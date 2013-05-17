@@ -27,10 +27,11 @@ Partial Class Form1
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.OptionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AccountsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SoundNotificationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.WindowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
-        Me.TimerCheckNewChats = New System.Windows.Forms.Timer(Me.components)
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.TimerCheckNewChats = New System.Windows.Forms.Timer(Me.components)
         Me.MenuStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -47,7 +48,7 @@ Partial Class Form1
         '
         'OptionsToolStripMenuItem
         '
-        Me.OptionsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AccountsToolStripMenuItem})
+        Me.OptionsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AccountsToolStripMenuItem, Me.SoundNotificationToolStripMenuItem})
         Me.OptionsToolStripMenuItem.Name = "OptionsToolStripMenuItem"
         Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(61, 20)
         Me.OptionsToolStripMenuItem.Text = "&Options"
@@ -55,8 +56,14 @@ Partial Class Form1
         'AccountsToolStripMenuItem
         '
         Me.AccountsToolStripMenuItem.Name = "AccountsToolStripMenuItem"
-        Me.AccountsToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.AccountsToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
         Me.AccountsToolStripMenuItem.Text = "&Accounts"
+        '
+        'SoundNotificationToolStripMenuItem
+        '
+        Me.SoundNotificationToolStripMenuItem.Name = "SoundNotificationToolStripMenuItem"
+        Me.SoundNotificationToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
+        Me.SoundNotificationToolStripMenuItem.Text = "Sound notification"
         '
         'WindowToolStripMenuItem
         '
@@ -73,15 +80,15 @@ Partial Class Form1
         Me.StatusStrip1.TabIndex = 1
         Me.StatusStrip1.Text = "StatusStrip1"
         '
-        'TimerCheckNewChats
-        '
-        Me.TimerCheckNewChats.Interval = 15000
-        '
         'ToolStripStatusLabel1
         '
         Me.ToolStripStatusLabel1.Name = "ToolStripStatusLabel1"
         Me.ToolStripStatusLabel1.Size = New System.Drawing.Size(249, 17)
         Me.ToolStripStatusLabel1.Text = "MESSUP - The Open Source Chat for Websites"
+        '
+        'TimerCheckNewChats
+        '
+        Me.TimerCheckNewChats.Interval = 15000
         '
         'Form1
         '
@@ -94,7 +101,7 @@ Partial Class Form1
         Me.IsMdiContainer = True
         Me.MainMenuStrip = Me.MenuStrip1
         Me.Name = "Form1"
-        Me.Text = "MESSUP client 0.1"
+        Me.Text = "MESSUP client 0.2"
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
         Me.StatusStrip1.ResumeLayout(False)
@@ -110,5 +117,6 @@ Partial Class Form1
     Friend WithEvents WindowToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents TimerCheckNewChats As System.Windows.Forms.Timer
     Friend WithEvents ToolStripStatusLabel1 As System.Windows.Forms.ToolStripStatusLabel
+    Friend WithEvents SoundNotificationToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

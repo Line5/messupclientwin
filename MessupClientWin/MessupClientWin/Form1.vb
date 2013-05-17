@@ -2,7 +2,6 @@
 Imports System.Threading
 Imports System.IO
 Imports System.Text
-'Imports System.Runtime.Serialization.Json
 Imports System.Web.Script.Serialization
 Imports System.Collections.Hashtable
 Imports System.Xml
@@ -11,11 +10,11 @@ Imports System.Xml
 ' - config is only read after restart of program
 
 Public Class Form1
-    Dim cookies As New Dictionary(Of Integer, CookieContainer)
     ''' <summary>
-    ''' 
+    ''' contains the cookies for all accounts
     ''' </summary>
     ''' <remarks></remarks>
+    Dim cookies As New Dictionary(Of Integer, CookieContainer)
     Dim knownChats As New Hashtable
     Public chatInformation As New Dictionary(Of String, Chat)
     Public chatWindows As New Dictionary(Of String, ChatWindow)
@@ -25,23 +24,21 @@ Public Class Form1
     Public AccountListWindow As New AccountList
     Public NewChatListWindow As New NewChatList
 
+    ''' <summary>
+    ''' determines if sound notifications are to be used.
+    ''' </summary>
+    ''' <remarks>The value of this variable is stored permanently on a per-user base
+    ''' within the my.settings. It can be changed via the "Options" menu.</remarks>
+    Public soundOn As Boolean = True
+
     Public settingsPath As String = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\MessupClientWin\"
 
     Private Sub AccountsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AccountsToolStripMenuItem.Click
         AccountListWindow.Show()
-
-    End Sub
-
-    Private Sub Form1_Activated(sender As Object, e As EventArgs) Handles Me.Activated
-        'stopBlinking()
     End Sub
 
     Private Sub Form1_Click(sender As Object, e As EventArgs) Handles Me.Click
         stopBlinking()
-    End Sub
-
-    Private Sub Form1_GotFocus(sender As Object, e As EventArgs) Handles Me.GotFocus
-        'stopBlinking()
     End Sub
 
     Private Sub stopBlinking()
@@ -52,6 +49,13 @@ Public Class Form1
         ' 1 - load config
         AccountStatusWindow.Show()
         readConfig()
+        If My.Settings.soundOn = True Then
+            soundOn = True
+            Me.SoundNotificationToolStripMenuItem.Checked = True
+        Else
+            soundOn = False
+            Me.SoundNotificationToolStripMenuItem.Checked = False
+        End If
         ' 2 - start login process to all chats
         logAllIn()
         ' 3 - load open, assigned chats 
@@ -121,8 +125,6 @@ Public Class Form1
             state = New WebRequestState(request)
 
             Try
-
-
                 Dim response As WebResponse = request.GetResponse()
                 Dim dataStream As Stream = response.GetResponseStream()
 
@@ -193,11 +195,11 @@ Public Class Form1
                     chatInformation.Add(accountid.ToString + "-" + chats(i).id, chats(i))
                     NewChatListWindow.DataGridViewNewChats.Refresh()
                     FlashWindow(Me.Handle, FLASHW_ALL, 5, 1000)
+                    announceMsg()
                 End If
                 myOnlineChats.Remove(accountid.ToString + "-" + chats(i).id)
             Next i
         End If
-        'MsgBox(myOnlineChats.Count)
         If myOnlineChats.Count > 0 Then
             Dim pair As KeyValuePair(Of String, Integer)
 
@@ -205,7 +207,6 @@ Public Class Form1
             Dim xAccountId As Integer
             Dim xChatId As String
             For Each pair In myOnlineChats
-                'MsgBox("InPair")
                 knownChats.Remove(pair.Key)
                 splitpos = Strings.InStr(pair.Key, "-")
                 xChatId = pair.Key.Substring(splitpos)
@@ -399,8 +400,23 @@ Public Class Form1
         FlashWindowEx(FlashInfo)
     End Sub
 
-    Private Sub ToolStripStatusLabel1_Click(sender As Object, e As EventArgs) Handles ToolStripStatusLabel1.Click
+    Public Sub announceMsg()
+        If soundOn = True Then
+            My.Computer.Audio.Play("dingding.wav")
+        End If
+    End Sub
 
+    Private Sub SoundNotificationToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SoundNotificationToolStripMenuItem.Click
+        If soundOn = True Then
+            soundOn = False
+            My.Settings.soundOn = False
+            SoundNotificationToolStripMenuItem.Checked = False
+        Else
+            soundOn = True
+            My.Settings.soundOn = True
+            SoundNotificationToolStripMenuItem.Checked = True
+        End If
+        My.Settings.Save()
     End Sub
 End Class
 
