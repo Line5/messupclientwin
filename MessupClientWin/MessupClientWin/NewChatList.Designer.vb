@@ -44,6 +44,7 @@ Partial Class NewChatList
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(438, 277)
+        Me.ControlBox = False
         Me.Controls.Add(Me.DataGridViewNewChats)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "NewChatList"

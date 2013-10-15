@@ -47,6 +47,7 @@ Public Class Form1
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' 1 - load config
+        AccountStatusWindow.MdiParent = Me
         AccountStatusWindow.Show()
         readConfig()
         If My.Settings.soundOn = True Then
